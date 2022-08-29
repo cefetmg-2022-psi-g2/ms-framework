@@ -43,6 +43,9 @@ const dbHelper = {
 			});
 		});
 	},
+	init: (path) => {
+		db.init(path);
+	}
 };
 
 module.exports = dbHelper;
