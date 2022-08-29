@@ -1,8 +1,8 @@
-const db = require("./connection");
+const initDb = require("./connection");
 const dbHelper = {
 	getAllLines: (table) => {
 		return new Promise((resolve, reject) => {
-			db.all(`SELECT * FROM ${table}`, (err, rows) => {
+			this.db.all(`SELECT * FROM ${table}`, (err, rows) => {
 				if (err) {
 					reject(err);
 				}
@@ -12,7 +12,7 @@ const dbHelper = {
 	},
 	selectWhere: (table, where) => {
 		return new Promise((resolve, reject) => {
-			db.all(`SELECT * FROM ${table} WHERE ${where}`, (err, rows) => {
+			this.db.all(`SELECT * FROM ${table} WHERE ${where}`, (err, rows) => {
 				if (err) {
 					reject(err);
 				}
@@ -22,7 +22,7 @@ const dbHelper = {
 	},
 	insertInto: (table, names, values) => {
 		return new Promise((resolve, reject) => {
-			db.all(`INSERT INTO 
+			this.db.all(`INSERT INTO 
 			${table} (${names.join(', ')}) 
 			VALUES(${values.map(d => `'${d}'`).join(',')})`, (err) => {
 				if (err) {
@@ -35,7 +35,7 @@ const dbHelper = {
 	},
 	customQuery: (sql, params) => {
 		return new Promise((resolve, reject) => {
-			db.all(sql, params, (err, rows) => {
+			this.db.all(sql, params, (err, rows) => {
 				if (err) {
 					reject(err);
 				}
@@ -44,7 +44,7 @@ const dbHelper = {
 		});
 	},
 	init: (path) => {
-		db.init(path);
+		this.db = initDb(path);
 	}
 };
 
